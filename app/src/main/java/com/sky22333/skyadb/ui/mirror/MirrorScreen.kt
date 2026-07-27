@@ -1,9 +1,12 @@
 package com.sky22333.skyadb.ui.mirror
 
+import android.content.pm.ActivityInfo
 import android.view.KeyEvent
 import android.view.Surface
 import android.view.SurfaceHolder
 import android.view.SurfaceView
+import android.view.WindowManager
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -50,8 +53,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sky22333.skyadb.model.OperationStatus
 
@@ -66,8 +72,52 @@ fun MirrorScreen(
     var inputText by remember { mutableStateOf("") }
     var controlsVisible by remember { mutableStateOf(true) }
 
+    val context = LocalContext.current
+    val activity = context as? ComponentActivity
+    val lifecycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current
+
+    // 自动旋转屏幕：跟随远程设备方向
+    DisposableEffect(uiState.isRemoteLandscape, uiState.status) {
+        val originalOrientation = activity?.requestedOrientation
+        when {
+            uiState.isRemoteLandscape && uiState.status is OperationStatus.Success -> {
+                activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+            }
+            uiState.status is OperationStatus.Success -> {
+                activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
+            }
+        }
+        onDispose {
+            // 恢复原始屏幕方向
+            activity?.let { act ->
+                if (originalOrientation != null) {
+                    act.requestedOrientation = originalOrientation
+                } else {
+                    act.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+                }
+            }
+        }
+    }
+
+    // 镜像过程中保持屏幕常亮
     DisposableEffect(Unit) {
-        onDispose { viewModel.stop() }
+        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        onDispose {
+            activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        }
+    }
+
+    // 页面销毁时停止镜像
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_DESTROY) {
+                viewModel.stop()
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
     }
 
     Box(
