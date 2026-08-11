@@ -27,6 +27,8 @@ data class MirrorUiState(
     val status: OperationStatus = OperationStatus.Idle,
     val videoWidth: Int = 0,
     val videoHeight: Int = 0,
+    /** 远程设备是否横屏（width > height） */
+    val isRemoteLandscape: Boolean = true,
 )
 
 class MirrorViewModel(
@@ -84,7 +86,12 @@ class MirrorViewModel(
                     surface = launchSurface,
                     qualityPreset = qualityPreset,
                     onVideoSize = { width, height ->
-                        state.value = state.value.copy(videoWidth = width, videoHeight = height)
+                        val isLandscape = width > height
+                        state.value = state.value.copy(
+                            videoWidth = width,
+                            videoHeight = height,
+                            isRemoteLandscape = isLandscape,
+                        )
                     },
                     onStreamError = { error ->
                         started = false

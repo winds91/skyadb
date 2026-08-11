@@ -1,9 +1,13 @@
 package com.sky22333.skyadb.ui.mirror
 
+import android.content.pm.ActivityInfo
 import android.view.KeyEvent
 import android.view.Surface
 import android.view.SurfaceHolder
 import android.view.SurfaceView
+import android.view.View
+import android.view.WindowManager
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,10 +18,8 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
@@ -49,9 +51,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sky22333.skyadb.R
 import com.sky22333.skyadb.model.OperationStatus
@@ -66,8 +71,74 @@ fun MirrorScreen(
     var inputText by remember { mutableStateOf("") }
     var controlsVisible by remember { mutableStateOf(true) }
 
+    val context = LocalContext.current
+    val activity = context as? ComponentActivity
+    val lifecycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current
+
+    // 自动旋转屏幕：跟随远程设备方向
+    DisposableEffect(uiState.isRemoteLandscape, uiState.status) {
+        val originalOrientation = activity?.requestedOrientation
+        when {
+            uiState.isRemoteLandscape && uiState.status is OperationStatus.Success -> {
+                activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE
+            }
+            uiState.status is OperationStatus.Success -> {
+                activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT
+            }
+        }
+        onDispose {
+            // 恢复原始屏幕方向
+            activity?.let { act ->
+                if (originalOrientation != null) {
+                    act.requestedOrientation = originalOrientation
+                } else {
+                    act.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+                }
+            }
+        }
+    }
+
+    // 镜像过程中保持屏幕常亮
     DisposableEffect(Unit) {
-        onDispose { viewModel.stop() }
+        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        onDispose {
+            activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        }
+    }
+
+    // 进入沉浸模式：隐藏导航栏和状态栏（兼容 API 24+）
+    DisposableEffect(Unit) {
+        val window = activity?.window ?: return@DisposableEffect onDispose { }
+        val decorView = window.decorView
+        val originalSystemUiVisibility = decorView.systemUiVisibility
+
+        // 使用旧版 SYSTEM_UI_FLAG 方式（兼容 API 16+）
+        decorView.systemUiVisibility = (
+            View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                or View.SYSTEM_UI_FLAG_FULLSCREEN
+                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            )
+
+        onDispose {
+            // 恢复原始系统 UI 可见性
+            decorView.systemUiVisibility = originalSystemUiVisibility
+        }
+    }
+
+    // 页面销毁时停止镜像
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_DESTROY) {
+                viewModel.stop()
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
     }
 
     Box(
@@ -176,7 +247,6 @@ private fun MirrorTopActions(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .statusBarsPadding()
             .padding(12.dp),
         horizontalArrangement = Arrangement.End,
         verticalAlignment = Alignment.CenterVertically,
@@ -207,7 +277,6 @@ private fun MirrorControls(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .navigationBarsPadding()
             .padding(12.dp),
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(containerColor = Color.Black.copy(alpha = 0.50f)),
