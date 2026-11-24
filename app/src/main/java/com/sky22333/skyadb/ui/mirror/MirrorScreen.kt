@@ -104,11 +104,11 @@ fun MirrorScreen(
                 modifier = surfaceModifier,
                 factory = { context ->
                     object : TextureView(context) {
-                        override fun performClick(): Boolean {
-                            super.performClick()
-                            return true
+                            override fun performClick(): Boolean {
+                                super.performClick()
+                                return true
+                            }
                         }
-                    }
                         .apply {
                             surfaceTextureListener =
                                 object : TextureView.SurfaceTextureListener {
