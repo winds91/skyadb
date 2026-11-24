@@ -1,13 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="storage_read_failed">Unable to read app data</string>
+    <string name="storage_read_retry_hint">Check device storage and try again.</string>
+    <string name="action_retry">Retry</string>
+    <string name="ai_response_interrupted">[Response interrupted]</string>
+    <string name="ai_operation_interrupted">Operation interrupted</string>
+    <string name="ai_history_delete">Delete this conversation?</string>
+    <string name="ai_target_device">Target device: %1$s</string>
+    <string name="ai_local_disclosure">The file contents or directory names read will be sent to the configured AI service.</string>
+    <string name="ai_upload_overwrite">An existing file at the destination may be overwritten.</string>
+    <string name="ai_tool_local_list">List local files</string>
+    <string name="ai_tool_local_read">Read local file</string>
+    <string name="ai_tool_local_upload">Upload local file</string>
+    <string name="ai_archive_list_confirm">List ZIP entries</string>
+    <string name="ai_tool_archive_list">Inspect local archive</string>
+    <string name="ai_tool_archive_read">Read archive text</string>
+    <string name="ai_input_count">%1$d / %2$d characters</string>
+    <string name="ai_input_over_limit">Too long to send: %1$d / %2$d characters</string>
+    <string name="ai_input_too_long">Message exceeds the %1$d character limit</string>
+    <string name="ai_history">Chat history</string>
+    <string name="ai_history_empty">No conversations yet</string>
+    <string name="ai_history_read_failed">Could not load chat history</string>
+    <string name="ai_history_save_failed">Could not save chat history</string>
     <string name="app_name">sky adb</string>
 
     <!-- Language -->
     <string name="language_follow_system">System</string>
-    <string name="language_chinese">Chinese</string>
+    <string name="language_chinese">简体中文</string>
+    <string name="language_chinese_traditional">繁體中文</string>
     <string name="language_english">English</string>
-    <string name="settings_language">Language</string>
-    <string name="settings_language_desc">Follow system or choose manually</string>
+    <string name="settings_language">App language</string>
 
     <!-- Theme -->
     <string name="theme_system">System</string>
@@ -23,13 +45,8 @@
     <string name="nav_devices">Devices</string>
     <string name="nav_details">Details</string>
     <string name="nav_settings">Settings</string>
-    <string name="nav_pairing">Pairing</string>
-    <string name="nav_discovery">Scan</string>
-    <string name="nav_apps">Apps</string>
     <string name="nav_local_apps">Local apps</string>
-    <string name="nav_download">Download</string>
     <string name="nav_install">Install</string>
-    <string name="nav_files">Files</string>
     <string name="nav_screenshot">Screenshot</string>
     <string name="nav_shell">Shell</string>
     <string name="action_back">Back</string>
@@ -40,35 +57,26 @@
     <!-- Settings screen -->
     <string name="settings_title">Settings</string>
     <string name="settings_default_port_title">Default port</string>
-    <string name="settings_default_port_desc">Default connection port</string>
     <string name="settings_connection_timeout_title">Connection timeout</string>
-    <string name="settings_connection_timeout_desc">Wait time to establish a connection</string>
     <string name="settings_command_timeout_title">Command timeout</string>
-    <string name="settings_command_timeout_desc">Wait time for ADB commands</string>
     <string name="settings_scan_ranges_title">Scan ranges</string>
-    <string name="settings_scan_ranges_desc">Optional, customize discovery range</string>
     <string name="settings_scan_ranges_placeholder">e.g. 10.43.180.0/24</string>
     <string name="settings_mirror_quality_title">Mirror quality</string>
-    <string name="settings_mirror_quality_desc">Applies the next time mirroring starts</string>
     <string name="settings_theme_mode_title">Theme mode</string>
-    <string name="settings_theme_mode_desc">Choose the app appearance</string>
     <string name="settings_diagnostics_title">Diagnostic log</string>
-    <string name="settings_diagnostics_desc">View recent errors</string>
     <string name="settings_clear_recent_devices_title">Clear recent devices</string>
-    <string name="settings_clear_recent_devices_desc">Remove connection history</string>
     <string name="settings_project_url_title">Project URL</string>
 
     <!-- Home screen -->
     <string name="home_title">Device connection</string>
     <string name="action_disconnect">Disconnect</string>
     <string name="home_refresh_usb_desc">Refresh USB devices</string>
-    <string name="home_no_usb_devices">No devices detected</string>
     <string name="device_authorized">Authorized</string>
     <string name="device_unauthorized">Pending authorization</string>
     <string name="action_connecting">Connecting\u2026</string>
     <string name="action_connect">Connect</string>
     <string name="home_manual_connect_title">Manual connection</string>
-    <string name="home_ip_label">IP address</string>
+    <string name="home_endpoint_label">IP address:port</string>
     <string name="action_wireless_pairing">Pair</string>
     <string name="action_discover_devices">Discover</string>
     <string name="home_recent_devices_title">Recent devices</string>
@@ -77,14 +85,14 @@
     <!-- Device screen -->
     <string name="device_details_title">Device details</string>
     <string name="device_refresh_info_desc">Refresh device info</string>
-    <string name="device_connect_hint">Connect a device to view system info</string>
+    <string name="device_connect_hint">Tap name for details, status to reboot</string>
     <string name="section_quick_actions">Quick actions</string>
     <string name="section_system_info">System info</string>
-    <string name="device_info_expanded_desc">Missing basic info is shown as Unknown</string>
-    <string name="device_info_collapsed_desc">Tap the icon to expand</string>
-    <string name="device_info_collapse_desc">Collapse system info</string>
-    <string name="device_info_expand_desc">View system info</string>
     <string name="device_info_brand">Brand</string>
+    <string name="device_info_manufacturer">Manufacturer</string>
+    <string name="device_info_device">Device code</string>
+    <string name="device_info_build">Build</string>
+    <string name="device_info_security_patch">Security patch</string>
     <string name="device_info_model">Model</string>
     <string name="device_info_android_version">Android version</string>
     <string name="device_info_resolution">Resolution</string>
@@ -100,12 +108,10 @@
 
     <!-- Apps screen -->
     <string name="apps_title">App manager</string>
-    <string name="apps_subtitle">View, launch, stop, or uninstall apps</string>
     <string name="apps_refresh_list_desc">Refresh app list</string>
     <string name="apps_search_label">Search apps</string>
-    <string name="apps_search_placeholder">Enter package name or app name</string>
     <string name="apps_list_title">App list</string>
-    <string name="apps_list_desc_format">%1$d total, filtered locally by category and search</string>
+    <string name="apps_list_desc_format">%1$d total</string>
     <string name="apps_empty_title">No apps</string>
     <string name="apps_empty_message">Connect a device and refresh to see apps here.</string>
     <string name="apps_confirm_uninstall_title">Uninstall this app?</string>
@@ -130,10 +136,8 @@
 
     <!-- Local apps screen -->
     <string name="local_apps_title">Local apps</string>
-    <string name="local_apps_subtitle">Export a single-APK user app and install it on the target device</string>
     <string name="local_apps_refresh_desc">Refresh local apps</string>
     <string name="local_apps_search_label">Search local apps</string>
-    <string name="local_apps_search_placeholder">Enter app name or package name</string>
     <string name="local_apps_user_apps_title">User apps</string>
     <string name="local_apps_list_desc_format">%1$d total, only launchable single-APK apps are supported</string>
     <string name="local_apps_empty_title">No apps to show</string>
@@ -143,15 +147,12 @@
 
     <!-- Install APK screen -->
     <string name="install_apk_title">Install APK</string>
-    <string name="install_apk_subtitle">Choose a local APK and install it on the connected device</string>
     <string name="install_apk_local_title">Local APK</string>
-    <string name="install_apk_local_desc">Make sure the target device is connected before installing</string>
     <string name="install_apk_no_file_selected">No file selected</string>
     <string name="action_pick_apk">Choose APK</string>
 
     <!-- Online download screen -->
     <string name="online_download_title">Online download</string>
-    <string name="online_download_task_title">Download task</string>
     <string name="online_download_url_label">Download URL</string>
     <string name="online_download_target_path_label">Device target directory</string>
     <string name="action_start">Start</string>
@@ -168,11 +169,17 @@
     <string name="files_cancel_transfer_desc">Cancel transfer</string>
     <string name="action_rename">Rename</string>
     <string name="action_refresh">Refresh</string>
-    <string name="files_permission_required">\"All files access\" permission is required</string>
+    <string name="files_permission_required">Allow storage access to show all files</string>
     <string name="action_authorize">Authorize</string>
-    <string name="files_nav_up_desc">Up</string>
     <string name="files_sync_path_desc">Sync path from other pane</string>
     <string name="files_transfer_to_other_desc">Transfer to other pane</string>
+    <string name="files_transfer_selected">Transfer selected</string>
+    <string name="files_delete_selected">Delete selected</string>
+    <string name="files_more_actions">More file actions</string>
+    <string name="files_copy_path">Copy path</string>
+    <string name="files_copy_name">Copy name</string>
+    <string name="files_copied">Copied</string>
+    <string name="files_details">Details</string>
     <string name="files_new_folder_desc">New folder</string>
     <string name="files_empty_dir">Empty directory</string>
     <string name="files_dir_meta">Folder</string>
@@ -189,9 +196,7 @@
 
     <!-- Screenshot screen -->
     <string name="screenshot_title">Device screenshot</string>
-    <string name="screenshot_subtitle">The screenshot is previewed first, then saved when needed</string>
     <string name="screenshot_task_title">Screenshot task</string>
-    <string name="screenshot_task_desc">The screenshot is cached first; you then choose where to save it</string>
     <string name="screenshot_no_screenshot_yet">No screenshot yet</string>
     <string name="action_save">Save</string>
     <string name="action_clear_preview">Clear preview</string>
@@ -203,6 +208,37 @@
     <string name="shell_command_input_title">Command input</string>
     <string name="shell_command_label">Shell command</string>
     <string name="shell_command_placeholder">e.g. getprop ro.product.model</string>
+    <string name="fastboot_console_title">Fastboot commands</string>
+    <string name="fastboot_summary_title">Device summary</string>
+    <string name="fastboot_connected">Fastboot connected</string>
+    <string name="fastboot_refresh_summary">Refresh device summary</string>
+    <string name="fastboot_copy_summary">Copy device summary</string>
+    <string name="fastboot_summary_failed">Unable to read device summary</string>
+    <string name="fastboot_not_provided">Not provided</string>
+    <string name="fastboot_product">Product</string>
+    <string name="fastboot_serial">Serial number</string>
+    <string name="fastboot_bootloader_version">Bootloader version</string>
+    <string name="fastboot_slot">Active slot</string>
+    <string name="fastboot_mode">Mode</string>
+    <string name="device_rebooting">Sending reboot command…</string>
+    <string name="fastboot_reboot_to">Reboot to</string>
+    <string name="fastboot_reboot_system">System</string>
+    <string name="fastboot_reboot_bootloader">Bootloader</string>
+    <string name="fastboot_reboot_recovery">Recovery</string>
+    <string name="fastboot_reboot_fastbootd">fastbootd</string>
+    <string name="fastboot_reboot_sent">Reboot command accepted. Reconnect from the home page after the device changes mode.</string>
+    <string name="fastboot_command_done">Fastboot command completed</string>
+    <string name="command_copy_result">Copy result</string>
+    <string name="command_result_copied">Result copied</string>
+    <string name="fastboot_command_placeholder">e.g. fastboot getvar product</string>
+    <string name="adb_command_input_hint">Accepts shell commands with or without the adb shell prefix.</string>
+    <string name="fastboot_command_input_hint">Accepts fastboot getvar product or getvar:product.</string>
+    <string name="command_wrong_mode">The command prefix does not match the current connection. Connect an ADB or Fastboot device of the matching type.</string>
+    <string name="command_devices_hint">devices lists devices on the host. View connected devices in USB OTG on the home page.</string>
+    <string name="command_host_only_hint">This desktop client command is not supported here. Use the connection, app or file management pages for those operations.</string>
+    <string name="command_client_options_hint">Commands use the device connected in this app. Remove desktop client options such as -s, -d and -t; interactive shell options are not supported.</string>
+    <string name="command_fastboot_syntax_hint">Enter one Fastboot command, such as fastboot getvar product, getvar:product or fastboot reboot.</string>
+    <string name="command_fastboot_file_hint">This command requires an image transfer workflow. This console does not support uploading or flashing image files.</string>
     <string name="action_execute">Execute</string>
     <string name="shell_output_title">Output</string>
     <string name="shell_no_output">No output yet</string>
@@ -211,13 +247,6 @@
 
     <!-- Remote control screen -->
     <string name="remote_title">Virtual remote</string>
-    <string name="remote_subtitle">Send physical key events to the target device</string>
-    <string name="remote_common_actions">Common actions</string>
-    <string name="remote_dpad_title">D-pad</string>
-    <string name="remote_dpad_desc">Suited for TVs, boxes, and touch-free devices</string>
-    <string name="remote_volume_title">Volume control</string>
-    <string name="remote_media_title">Media control</string>
-    <string name="remote_power_title">Power</string>
 
     <!-- Mirror screen -->
     <string name="mirror_hide_controls_desc">Hide controls</string>
@@ -230,7 +259,6 @@
 
     <!-- System log screen -->
     <string name="syslog_title">System log</string>
-    <string name="syslog_subtitle">Read recent logs from the target device on demand</string>
     <string name="syslog_copy_desc">Copy logs</string>
     <string name="syslog_clear_desc">Clear logs</string>
     <string name="syslog_refresh_desc">Refresh logs</string>
@@ -243,7 +271,6 @@
     <string name="syslog_copied_toast">Current log copied</string>
 
     <!-- Diagnostic log screen -->
-    <string name="diagnostics_subtitle">Only errors from the current run are kept</string>
     <string name="diagnostics_clip_label">Diagnostic log</string>
     <string name="diagnostics_copied_toast">Diagnostic log copied</string>
     <string name="diagnostics_recent_errors_title">Recent errors</string>
@@ -279,7 +306,6 @@
     <string name="discovery_scan_range_title">Scan range</string>
     <string name="discovery_scan_progress_format">Scanned %1$d / %2$d, %3$d found</string>
     <string name="action_start_scan">Start scan</string>
-    <string name="action_use">Use</string>
     <string name="discovery_connect_wifi_first">Connect to Wi-Fi or a LAN first</string>
     <string name="discovery_network_with_source">%1$s (%2$s)</string>
     <string name="discovery_scan_range_format">%1$s, port %2$s</string>
@@ -301,14 +327,9 @@
     <string name="kadb_connect_before_push_suggestion">Connect a device first, then push the file.</string>
     <string name="kadb_connect_before_pull_suggestion">Connect a device first, then pull the file.</string>
     <string name="kadb_connect_before_mirror_suggestion">Connect a device first, then start screen mirroring.</string>
-    <string name="kadb_connect_failed">Connection failed</string>
-    <string name="kadb_connect_failed_probe_suggestion">The device responded but the command failed. Make sure wireless debugging is authorized on the target device.</string>
     <string name="kadb_cannot_connect_device">Unable to connect to the device</string>
     <string name="kadb_cannot_connect_suggestion">Make sure the device is on the same network, the ADB port is correct, and debugging is authorized.</string>
-    <string name="kadb_adb_interface_not_found">ADB interface not found</string>
-    <string name="kadb_adb_interface_suggestion">Make sure USB debugging is enabled on the target device and it isn\'t in Fastboot mode.</string>
     <string name="kadb_usb_otg_connect_failed">USB OTG connection failed</string>
-    <string name="kadb_usb_otg_connect_suggestion">Make sure USB debugging is authorized on the target device, then reconnect the OTG cable.</string>
     <string name="kadb_pair_failed">Wireless debugging pairing failed</string>
     <string name="kadb_pair_failed_suggestion">Make sure the pairing code hasn\'t expired, and the pairing IP and port match the pairing dialog on the target device.</string>
     <string name="kadb_command_failed">Command execution failed</string>
@@ -330,6 +351,8 @@
     <string name="kadb_apk_export_check_exist_suggestion">Make sure the app exists and the device stays connected.</string>
     <string name="kadb_apk_export_single_only_suggestion">Only single-APK apps can be exported. Make sure the app exists and isn\'t a split package.</string>
     <string name="kadb_list_apps_failed">Failed to read the app list</string>
+    <string name="apps_probe_unavailable">App names and icons unavailable; showing package names</string>
+    <string name="apps_probe_unavailable_hint">Check the target connection and try again.</string>
     <string name="kadb_list_apps_suggestion">Make sure the device is still online and allows the pm list packages command.</string>
     <string name="kadb_list_dir_failed">Failed to read the directory</string>
     <string name="kadb_list_dir_suggestion">Make sure the device path exists and the current user has read permission.</string>
@@ -343,11 +366,6 @@
     <string name="kadb_pull_suggestion">Make sure the device path exists, the local save location is writable, and the device stays connected.</string>
     <string name="kadb_screenshot_failed">Screenshot failed</string>
     <string name="kadb_screenshot_suggestion">Make sure the device allows the screencap command.</string>
-    <string name="kadb_mirror_usb_unsupported">Screen mirroring isn\'t supported over USB OTG yet</string>
-    <string name="kadb_mirror_usb_unsupported_suggestion">Screen mirroring needs multiple parallel ADB connections, but USB OTG only supports a single channel. Please use Wi-Fi ADB instead.</string>
-    <string name="kadb_mirror_connect_failed">Screen mirroring connection failed</string>
-    <string name="kadb_mirror_restored_suggestion">Make sure the device is still online, then try entering screen mirroring again.</string>
-    <string name="kadb_mirror_not_restored_suggestion">Mirroring connection failed and the previous session couldn\'t be restored. Please reconnect the device.</string>
 
     <!-- FastbootOtgManager -->
     <string name="fastboot_interface_not_found">Fastboot interface not found</string>
@@ -355,11 +373,8 @@
     <string name="fastboot_connect_failed">Fastboot connection failed</string>
     <string name="fastboot_connect_failed_suggestion">Make sure the target device is in Fastboot mode, the OTG cable is secure, and USB access is authorized.</string>
     <string name="fastboot_not_connected">No Fastboot device connected</string>
-    <string name="fastboot_command_empty">Fastboot command is empty</string>
-    <string name="fastboot_command_empty_suggestion">Enter a valid Fastboot command, e.g. getvar:product.</string>
     <string name="fastboot_command_failed">Fastboot command execution failed</string>
     <string name="fastboot_command_failed_suggestion">Make sure the command format is correct and the device is still in Fastboot mode.</string>
-    <string name="fastboot_invalid_response_error">Did not receive a valid Fastboot response (%1$s)</string>
 
     <!-- AdbRepository -->
     <string name="repo_usb_device_disconnected">USB device disconnected</string>
@@ -376,29 +391,23 @@
     <string name="repo_device_name_android">Android device</string>
     <string name="repo_device_name_usb">USB device</string>
     <string name="repo_device_name_fastboot">Fastboot device</string>
-    <string name="repo_status_just_connected">Just connected</string>
-    <string name="repo_status_fastboot_connected">Fastboot connected</string>
+
+
 
     <!-- Scrcpy mirroring -->
     <string name="scrcpy_video_stream_error">Screen mirroring video stream error</string>
+    <string name="scrcpy_audio_stream_error">Audio unavailable; video is still playing</string>
     <string name="scrcpy_start_failed">Failed to start screen mirroring</string>
     <string name="scrcpy_start_failed_fallback_suggestion">Check the diagnostic logs in Settings.</string>
-    <string name="scrcpy_stop_release_failed">Failed to release screen mirroring resources</string>
-    <string name="scrcpy_stop_release_failed_suggestion">If starting again fails, reconnect the device.</string>
     <string name="scrcpy_control_disconnected_suggestion">The mirroring connection may have dropped. Please re-enter screen mirroring.</string>
     <string name="scrcpy_send_touch_failed">Failed to send the remote touch event</string>
     <string name="scrcpy_send_key_failed">Failed to send the remote key event</string>
     <string name="scrcpy_send_text_failed">Failed to send the remote text</string>
     <string name="scrcpy_mirror_diagnostic_template">Current quality: %1$s. Start parameters: %2$s. Please re-enter screen mirroring; if it keeps failing, switch to the smooth quality preset.</string>
     <string name="scrcpy_mirror_diagnostic_with_log">%1$s\nscrcpy server log:\n%2$s</string>
-    <string name="scrcpy_audio_requires_connection">An audio connection is required when audio is enabled</string>
     <string name="scrcpy_socket_connect_failed">Unable to connect to the scrcpy socket: %1$s</string>
-    <string name="scrcpy_unsupported_codec">Unsupported video codec: 0x%1$s</string>
 
     <!-- UsbBulkChannel -->
-    <string name="usb_claim_interface_failed">Unable to claim the USB interface</string>
-    <string name="usb_bulk_endpoint_not_found">USB bulk endpoint not found</string>
-    <string name="usb_write_failed">USB write failed: %1$s</string>
 
     <!-- LocalFileManager -->
     <string name="files_dir_not_exist">The directory doesn\'t exist</string>
@@ -427,19 +436,16 @@
     <string name="download_complete">Download complete</string>
 
     <!-- AndroidAdbMdnsDiscovery -->
-    <string name="discovery_start_failed">Automatic discovery failed to start. You can continue using subnet scanning.</string>
     <string name="discovery_unavailable">Automatic discovery isn\'t available. You can continue using subnet scanning.</string>
 
     <!-- Device type / connection state labels -->
-    <string name="device_type_phone">Phone</string>
-    <string name="device_type_tablet">Tablet</string>
-    <string name="device_type_tv">TV</string>
-    <string name="device_type_box">Box</string>
-    <string name="device_type_unknown">Unknown device</string>
+
+
+
+
+
     <string name="connection_state_disconnected">Disconnected</string>
-    <string name="connection_state_connecting">Connecting</string>
     <string name="connection_state_connected">Connected</string>
-    <string name="connection_state_failed">Failed</string>
     <string name="connection_state_offline">Offline</string>
 
     <!-- Download task states -->
@@ -454,19 +460,19 @@
 
     <!-- LAN discovery: ADB probe states -->
     <string name="adb_probe_port_closed_label">Closed</string>
-    <string name="adb_probe_port_closed_desc">Target port did not respond</string>
+
     <string name="adb_probe_not_adb_label">Not ADB</string>
-    <string name="adb_probe_not_adb_desc">Port is open but did not respond to the ADB handshake</string>
+
     <string name="adb_probe_port_open_label">Port open</string>
-    <string name="adb_probe_port_open_desc">Port is reachable; try connecting via ADB to confirm</string>
+
     <string name="adb_probe_unauthorized_label">Needs authorization</string>
-    <string name="adb_probe_unauthorized_desc">Found an ADB service; confirm authorization on the target device</string>
+
     <string name="adb_probe_available_label">Connectable</string>
-    <string name="adb_probe_available_desc">Found a responsive ADB service</string>
+
     <string name="adb_probe_secure_label">Wireless debugging</string>
-    <string name="adb_probe_secure_desc">Found the Android 11+ wireless debugging secure handshake port</string>
+
     <string name="adb_probe_failed_label">Probe failed</string>
-    <string name="adb_probe_failed_desc">Probe error; you can retry the scan</string>
+
 
     <!-- LAN discovery: subnet source labels -->
     <string name="discovery_source_current_network">Current network</string>
@@ -476,12 +482,12 @@
     <!-- mDNS discovery service types -->
     <string name="mdns_service_pairing_label">Wireless debugging pairing</string>
     <string name="mdns_service_pairing_action">Pair</string>
-    <string name="mdns_service_pairing_desc">Enter the 6-digit pairing code shown on the target device to finish pairing</string>
+
     <string name="mdns_service_connect_label">Wireless debugging connect</string>
     <string name="mdns_service_connect_action">Connect</string>
-    <string name="mdns_service_connect_desc">Paired devices can connect using this port</string>
+
     <string name="mdns_service_legacy_label">Legacy Wi-Fi ADB</string>
-    <string name="mdns_service_legacy_desc">For devices with adb tcpip already enabled</string>
+
 
     <!-- Scan range validation -->
     <string name="scan_range_error_too_many">You can configure up to %1$d subnets</string>
@@ -587,7 +593,6 @@
     <!-- ViewModel operation status: Home -->
     <string name="home_usb_permission_denied">USB permission denied</string>
     <string name="home_usb_permission_hint">Please allow sky adb to access this USB device in the system dialog, then retry.</string>
-    <string name="home_autofill_discovered">Filled in the discovered address. Please confirm before connecting.</string>
     <string name="home_pairing_success_ip_filled">Paired successfully, IP filled in. Confirm the connect port (\"IP address &amp; port\" on the wireless debugging page) before connecting.</string>
     <string name="home_disconnected">Disconnected</string>
     <string name="home_cannot_connect">Cannot start connection</string>
@@ -719,4 +724,131 @@
     <string name="files_downloading_progress">Downloading %1$d/%2$d \u00b7 %3$s</string>
     <string name="files_cannot_read_local_dir">Cannot read local directory</string>
     <string name="files_grant_storage_permission">Please grant storage permission.</string>
+    <string name="mirror_toggle_keyboard">Show or hide text keyboard</string>
+    <string name="mirror_hide_keyboard">Close text keyboard</string>
+    <string name="usb_connection_hint">Keep the data cable connected, enable USB debugging on the target and allow its debugging authorization prompt. Reconnect if authorization times out.</string>
+    <string name="ai_nav">AI</string>
+    <string name="ai_title">AI Assistant</string>
+    <string name="ai_config">Model settings</string>
+    <string name="ai_url">API base URL</string>
+    <string name="ai_key">API key</string>
+    <string name="ai_model">Model ID</string>
+    <string name="ai_models">Fetch models</string>
+    <string name="ai_prompt">Message</string>
+    <string name="ai_send">Send</string>
+    <string name="ai_stop">Stop</string>
+    <string name="ai_new">New chat</string>
+    <string name="ai_attach">Select local file</string>
+    <string name="ai_attachment_only_prompt">The user attached files without a message. Ask what they would like to do with them.</string>
+    <string name="ai_attachment">Local file selected</string>
+    <string name="ai_remove_attachment">Remove file</string>
+    <string name="ai_protocol">API protocol</string>
+    <string name="ai_approval">Confirm operation</string>
+    <string name="ai_allow">Run</string>
+    <string name="ai_deny">Deny</string>
+    <string name="ai_empty">Ask about the device or describe a task</string>
+    <string name="ai_model_list">Available models</string>
+    <string name="ai_empty_models">Enter a model ID if the list is unavailable</string>
+    <string name="ai_running">Working</string>
+    <string name="ai_tool_finished">Finished</string>
+    <string name="ai_tool_failed">Failed</string>
+    <string name="ai_error">AI notice</string>
+    <string name="ai_save">Save</string>
+    <string name="ai_config_read_failed">Could not read AI settings</string>
+    <string name="ai_config_invalid">Enter a valid API URL and model</string>
+    <string name="ai_url_invalid">Enter a valid API URL</string>
+    <string name="ai_config_save_failed">Could not save AI settings</string>
+    <string name="ai_fetch_failed">Could not fetch models: %1$s</string>
+    <string name="ai_config_required">Configure the AI service first</string>
+    <string name="ai_read_confirm">Read the selected local text file and send its contents to the configured AI service</string>
+    <string name="ai_tool_device">Read device information</string>
+    <string name="ai_tool_files">List device files</string>
+    <string name="ai_tool_shell">Run device command</string>
+    <string name="ai_tool_upload">Upload local file</string>
+    <string name="ai_tool_read">Read local file</string>
+    <string name="ai_tool_download">Download file</string>
+    <string name="ai_downloads">Downloaded files</string>
+    <string name="ai_downloads_empty">No downloaded files</string>
+    <string name="ai_download_export">Save as</string>
+    <string name="ai_download_delete">Delete downloaded file?</string>
+    <string name="ai_download_delete_failed">Could not delete file</string>
+    <string name="ai_download_export_failed">Could not save file</string>
+    <string name="ai_download_exported">File saved</string>
+    <string name="ai_tool_pull">Download device file</string>
+    <string name="ai_tool_export_apk">Export device APK</string>
+    <string name="ai_execution_mode">Tool execution</string>
+    <string name="ai_execution_confirm">Confirm operations</string>
+    <string name="ai_execution_auto">Automatic execution</string>
+    <string name="ai_tool_local_write">Write local file</string>
+    <string name="ai_directory_choose">Authorize local directory</string>
+    <string name="ai_directory_change">Change authorized directory</string>
+    <string name="ai_directory_failed">Could not authorize directory</string>
+    <string name="ai_tool_open_app">Open local app</string>
+    <string name="ai_directory_remove">Remove directory access</string>
+    <string name="ai_agent_environments">List environments</string>
+    <string name="ai_agent_discover">Discover ADB devices</string>
+    <string name="ai_agent_shell">Run shell command</string>
+    <string name="ai_agent_screen">Inspect screen</string>
+    <string name="ai_agent_transfer">Transfer file</string>
+    <string name="ai_agent_connect">Connect ADB device</string>
+    <string name="ai_agent_disconnect">Disconnect ADB device</string>
+    <string name="ai_shell_disclosure">Command output is sent to the configured AI service.</string>
+    <string name="ai_screen_disclosure">Screen contents are sent to the configured AI service.</string>
+    <string name="ai_mcp_title">MCP servers</string>
+    <string name="ai_mcp_server">MCP server</string>
+    <string name="ai_mcp_name">Server name</string>
+    <string name="ai_mcp_url">Streamable HTTP URL</string>
+    <string name="ai_mcp_token">Bearer token (optional)</string>
+    <string name="ai_mcp_test">Test connection</string>
+    <string name="ai_mcp_add">Add MCP server</string>
+    <string name="ai_mcp_invalid">Enter a server name and valid MCP URL</string>
+    <string name="ai_mcp_test_ok">Connected · %1$d tools</string>
+    <string name="ai_mcp_test_failed">Could not connect to the MCP server</string>
+    <string name="ai_mcp_unavailable">Connection failed. This service is unavailable for this conversation.</string>
+    <string name="ai_image_unsupported">This image format is not supported. Choose PNG, JPEG, WebP or GIF.</string>
+    <string name="ai_image_too_large">The image must be 10 MB or smaller.</string>
+    <string name="ai_images_too_large">Images in this conversation exceed 20 MB. Start a new conversation or use smaller images.</string>
+    <string name="fb_flash">Flash image</string>
+    <string name="fb_boot">Boot image</string>
+    <string name="fb_archive">Firmware ZIP</string>
+    <string name="fb_slot">Slot management</string>
+    <string name="fb_images">Images</string>
+    <string name="fb_device">Device management</string>
+    <string name="fb_choose_image">Choose image</string>
+    <string name="fb_choose_zip">Choose ZIP</string>
+    <string name="fb_partition">Partition name</string>
+    <string name="fb_slot_default">Device default</string>
+    <string name="fb_confirm_flash">Flash image to %1$s?</string>
+    <string name="fb_confirm_boot">Boot the selected image?</string>
+    <string name="fb_start">Start</string>
+    <string name="fb_action_cancelled">Operation cancelled.</string>
+    <string name="fb_preparing">Preparing…</string>
+    <string name="fb_file_empty">No file selected</string>
+    <string name="fb_open">Actions</string>
+    <string name="fb_archive_empty">No files in this archive</string>
+    <string name="fb_select_slot">Choose target slot</string>
+    <string name="fb_current_slot">Current slot: %1$s</string>
+    <string name="fb_slot_confirm">Switch active slot to %1$s?</string>
+    <string name="fb_invalid_partition">Enter a partition name without a slot suffix when selecting A or B.</string>
+    <string name="fb_done">Close</string>
+    <string name="fb_cancelled_partial">Cancelled. Earlier sparse pieces may already have been written.</string>
+    <string name="fb_progress">Transfer: %1$d%% · %2$s/s</string>
+    <string name="fb_export">Save to device</string>
+    <string name="fb_exported">File saved.</string>
+    <string name="fb_export_incomplete">File export was interrupted or failed; the destination may be incomplete.</string>
+    <string name="ai_tool_declined">Declined</string>
+    <string name="ai_back_to_latest">Back to latest</string>
+    <string name="ai_waiting_approval">Waiting for approval</string>
+    <string name="ai_file">File</string>
+    <string name="ai_preparing">Preparing</string>
+    <string name="ai_waiting_response">Waiting for response</string>
+    <string name="ai_answering">Responding</string>
+    <string name="ai_work_process">Work process</string>
+    <string name="ai_work_steps">%1$d steps</string>
+    <string name="ai_title_compact">AI</string>
+    <string name="ai_attachments_limit">Select up to 20 files per message.</string>
+    <string name="ai_attachment_access_failed">Could not retain access to some files. Select them again from a provider that supports persistent access.</string>
+    <string name="ai_attachment_read_failed">Cannot read %1$s: %2$s</string>
+    <string name="ai_remove_attachment_named">Remove %1$s</string>
+    <string name="ai_attachments_loading">Preparing attachments</string>
 </resources>

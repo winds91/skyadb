@@ -1,58 +1,48 @@
 package com.sky22333.skyadb.ui.remote
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
+import com.sky22333.skyadb.ui.components.AppIcons
+import top.yukonga.miuix.kmp.icon.MiuixIcons
+import top.yukonga.miuix.kmp.icon.extended.Theme
+import top.yukonga.miuix.kmp.icon.extended.More
+import top.yukonga.miuix.kmp.icon.extended.Back
+import top.yukonga.miuix.kmp.icon.extended.ChevronBackward
+import top.yukonga.miuix.kmp.icon.extended.ChevronForward
+import top.yukonga.miuix.kmp.icon.extended.Home
+import top.yukonga.miuix.kmp.icon.extended.VolumeOff
+import top.yukonga.miuix.kmp.icon.extended.VolumeUp
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.ArrowBack
-import androidx.compose.material.icons.automirrored.outlined.KeyboardArrowLeft
-import androidx.compose.material.icons.automirrored.outlined.KeyboardArrowRight
-import androidx.compose.material.icons.automirrored.outlined.VolumeDown
-import androidx.compose.material.icons.automirrored.outlined.VolumeOff
-import androidx.compose.material.icons.automirrored.outlined.VolumeUp
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.KeyboardArrowDown
-import androidx.compose.material.icons.outlined.KeyboardArrowUp
-import androidx.compose.material.icons.outlined.Menu
-import androidx.compose.material.icons.outlined.PlayArrow
-import androidx.compose.material.icons.outlined.PowerSettingsNew
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Text
-import com.sky22333.skyadb.ui.components.AppTopBar as TopAppBar
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import top.yukonga.miuix.kmp.basic.Icon
+import top.yukonga.miuix.kmp.basic.IconButton
+import top.yukonga.miuix.kmp.basic.Surface
+import top.yukonga.miuix.kmp.basic.Text
+import com.sky22333.skyadb.ui.components.Button
+import top.yukonga.miuix.kmp.theme.MiuixTheme
+import top.yukonga.miuix.kmp.window.WindowDialog
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sky22333.skyadb.R
 import com.sky22333.skyadb.model.OperationStatus
-import com.sky22333.skyadb.ui.components.SectionHeader
+import top.yukonga.miuix.kmp.basic.SmallTopAppBar
 import com.sky22333.skyadb.ui.theme.AdbManagerTheme
-import com.sky22333.skyadb.ui.theme.AppDimens
-
-private val RemoteButtonSize = 72.dp
-private val RemoteCenterButtonSize = 82.dp
 
 @Composable
 fun RemoteControlScreen(
@@ -60,205 +50,87 @@ fun RemoteControlScreen(
     onBackClick: () -> Unit,
     viewModel: RemoteControlViewModel = viewModel(),
 ) {
-    val uiState by viewModel.uiState.collectAsState()
-
-    RemoteControlContent(
-        bottomPadding = bottomPadding,
-        uiState = uiState,
-        onBackClick = onBackClick,
-        onKeyClick = viewModel::sendKey,
-    )
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    RemoteControlContent(bottomPadding, uiState, onBackClick, viewModel::sendKey)
 }
 
 @Composable
-private fun RemoteControlContent(
+internal fun RemoteControlContent(
     bottomPadding: Dp = 0.dp,
     uiState: RemoteControlUiState,
     onBackClick: () -> Unit,
     onKeyClick: (RemoteKey) -> Unit,
 ) {
-    Column(modifier = Modifier.fillMaxSize()) {
-        TopAppBar(
-            title = {
-                Column {
-                    Text(stringResource(R.string.remote_title))
-                    Text(
-                        stringResource(R.string.remote_subtitle),
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        style = MaterialTheme.typography.bodySmall,
-                    )
-                }
-            },
+    Column(Modifier.fillMaxSize().padding(bottom = bottomPadding)) {
+        SmallTopAppBar(
+            title = stringResource(R.string.remote_title),
             navigationIcon = {
                 IconButton(onClick = onBackClick) {
-                    Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = stringResource(R.string.action_back))
+                    Icon(
+                        MiuixIcons.Back,
+                        stringResource(R.string.action_back),
+                    )
                 }
             },
         )
-
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(
-                start = AppDimens.ScreenPadding,
-                top = AppDimens.ScreenPadding,
-                end = AppDimens.ScreenPadding,
-                bottom = AppDimens.ScreenPadding + bottomPadding,
-            ),
-            verticalArrangement = Arrangement.spacedBy(AppDimens.SectionGap),
-        ) {
-            item { RemoteStatus(status = uiState.status) }
-
-            item { SectionHeader(title = stringResource(R.string.remote_common_actions)) }
-
-            item {
-                KeyGrid(
-                    keys = listOf(
-                        KeyAction(RemoteKey.Back, Icons.AutoMirrored.Outlined.ArrowBack),
-                        KeyAction(RemoteKey.Home, Icons.Outlined.Home),
-                        KeyAction(RemoteKey.Menu, Icons.Outlined.Menu),
-                    ),
-                    onKeyClick = onKeyClick,
-                )
-            }
-
-            item {
-                SectionHeader(
-                    title = stringResource(R.string.remote_dpad_title),
-                    description = stringResource(R.string.remote_dpad_desc),
-                )
-            }
-
-            item { DpadCard(onKeyClick = onKeyClick) }
-
-            item { SectionHeader(title = stringResource(R.string.remote_volume_title)) }
-
-            item {
-                KeyGrid(
-                    keys = listOf(
-                        KeyAction(RemoteKey.VolumeDown, Icons.AutoMirrored.Outlined.VolumeDown),
-                        KeyAction(RemoteKey.VolumeUp, Icons.AutoMirrored.Outlined.VolumeUp),
-                        KeyAction(RemoteKey.Mute, Icons.AutoMirrored.Outlined.VolumeOff),
-                    ),
-                    onKeyClick = onKeyClick,
-                )
-            }
-
-            item { SectionHeader(title = stringResource(R.string.remote_media_title)) }
-
-            item {
-                KeyGrid(
-                    keys = listOf(
-                        KeyAction(RemoteKey.Previous, Icons.AutoMirrored.Outlined.KeyboardArrowLeft),
-                        KeyAction(RemoteKey.PlayPause, Icons.Outlined.PlayArrow),
-                        KeyAction(RemoteKey.Next, Icons.AutoMirrored.Outlined.KeyboardArrowRight),
-                    ),
-                    onKeyClick = onKeyClick,
-                )
-            }
-
-            item { SectionHeader(title = stringResource(R.string.remote_power_title)) }
-
-            item {
-                KeyGrid(
-                    keys = listOf(
-                        KeyAction(RemoteKey.Wakeup, Icons.Outlined.PowerSettingsNew),
-                        KeyAction(RemoteKey.Sleep, Icons.Outlined.PowerSettingsNew),
-                        KeyAction(RemoteKey.Power, Icons.Outlined.PowerSettingsNew),
-                    ),
-                    onKeyClick = onKeyClick,
-                )
-            }
-        }
+        RemoteStatus(uiState.status)
+        RemotePanel(Modifier.weight(1f).fillMaxWidth(), onKeyClick)
     }
 }
 
+/**
+ * Measure the available space rather than the display: navigation and system insets are already
+ * removed.
+ */
 @Composable
-private fun DpadCard(onKeyClick: (RemoteKey) -> Unit) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(AppDimens.CardRadius),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainer,
-        ),
+internal fun RemotePanel(modifier: Modifier = Modifier, onKeyClick: (RemoteKey) -> Unit) {
+    BoxWithConstraints(
+        modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+        contentAlignment = Alignment.Center,
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(AppDimens.CardPadding),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+        val landscape = maxWidth >= 480.dp && maxWidth > maxHeight
+        val directionSize = (maxHeight - if (landscape) 80.dp else 272.dp).coerceIn(144.dp, 224.dp)
+        Surface(
+            modifier =
+                if (landscape) Modifier.widthIn(max = 640.dp).fillMaxSize()
+                else Modifier.widthIn(max = 320.dp).fillMaxHeight().fillMaxWidth(),
+            shape = RoundedCornerShape(32.dp),
+            color = MiuixTheme.colorScheme.surfaceContainer,
         ) {
-            RemoteIconButton(
-                key = RemoteKey.Up,
-                icon = Icons.Outlined.KeyboardArrowUp,
-                onKeyClick = onKeyClick,
-            )
-
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(14.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                RemoteIconButton(
-                    key = RemoteKey.Left,
-                    icon = Icons.AutoMirrored.Outlined.KeyboardArrowLeft,
-                    onKeyClick = onKeyClick,
-                )
-
-                Button(
-                    onClick = { onKeyClick(RemoteKey.Center) },
-                    modifier = Modifier.size(RemoteCenterButtonSize),
-                    shape = RoundedCornerShape(28.dp),
+            if (landscape) {
+                Row(
+                    Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                    horizontalArrangement = Arrangement.spacedBy(24.dp),
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    Text(
-                        text = stringResource(RemoteKey.Center.labelRes),
-                        style = MaterialTheme.typography.titleMedium,
-                    )
-                }
-
-                RemoteIconButton(
-                    key = RemoteKey.Right,
-                    icon = Icons.AutoMirrored.Outlined.KeyboardArrowRight,
-                    onKeyClick = onKeyClick,
-                )
-            }
-
-            RemoteIconButton(
-                key = RemoteKey.Down,
-                icon = Icons.Outlined.KeyboardArrowDown,
-                onKeyClick = onKeyClick,
-            )
-        }
-    }
-}
-
-@Composable
-private fun KeyGrid(
-    keys: List<KeyAction>,
-    onKeyClick: (RemoteKey) -> Unit,
-) {
-    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        keys.chunked(2).forEach { row ->
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-                row.forEach { action ->
-                    OutlinedButton(
-                        onClick = { onKeyClick(action.key) },
-                        modifier = Modifier.weight(1f),
+                    Column(
+                        Modifier.weight(1f).fillMaxHeight(),
+                        verticalArrangement = Arrangement.SpaceEvenly,
+                        horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
-                        Icon(
-                            imageVector = action.icon,
-                            contentDescription = stringResource(action.key.labelRes),
-                            modifier = Modifier.size(18.dp),
-                        )
-                        Spacer(modifier = Modifier.width(6.dp))
-                        Text(stringResource(action.key.labelRes))
+                        RemoteRow(powerKeys, onKeyClick)
+                        DirectionPad(directionSize, onKeyClick)
+                    }
+                    Column(
+                        Modifier.weight(1f).fillMaxHeight(),
+                        verticalArrangement = Arrangement.SpaceEvenly,
+                    ) {
+                        RemoteRow(navigationKeys, onKeyClick)
+                        RemoteRow(volumeKeys, onKeyClick)
+                        RemoteRow(mediaKeys, onKeyClick)
                     }
                 }
-
-                if (row.size == 1) {
-                    Spacer(modifier = Modifier.weight(1f))
+            } else {
+                Column(
+                    Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                    verticalArrangement = Arrangement.SpaceEvenly,
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    RemoteRow(powerKeys, onKeyClick)
+                    DirectionPad(directionSize, onKeyClick)
+                    RemoteRow(navigationKeys, onKeyClick)
+                    RemoteRow(volumeKeys, onKeyClick)
+                    RemoteRow(mediaKeys, onKeyClick)
                 }
             }
         }
@@ -266,59 +138,192 @@ private fun KeyGrid(
 }
 
 @Composable
-private fun RemoteIconButton(
+private fun DirectionPad(diameter: Dp, onKeyClick: (RemoteKey) -> Unit) {
+    // Round down so pixel rounding never makes adjacent touch targets overlap.
+    val keySize = (diameter.value / 3).toInt().dp
+    Box(
+        Modifier.size(diameter)
+            .background(MiuixTheme.colorScheme.surfaceContainerHigh, CircleShape)
+    ) {
+        DirectionKey(
+            RemoteKey.Up,
+            MiuixIcons.ChevronBackward,
+            Modifier.align(Alignment.TopCenter).size(keySize),
+            onKeyClick,
+            rotation = 90f,
+        )
+        DirectionKey(
+            RemoteKey.Left,
+            MiuixIcons.ChevronBackward,
+            Modifier.align(Alignment.CenterStart).size(keySize),
+            onKeyClick,
+        )
+        DirectionKey(
+            RemoteKey.Right,
+            MiuixIcons.ChevronForward,
+            Modifier.align(Alignment.CenterEnd).size(keySize),
+            onKeyClick,
+        )
+        DirectionKey(
+            RemoteKey.Down,
+            MiuixIcons.ChevronBackward,
+            Modifier.align(Alignment.BottomCenter).size(keySize),
+            onKeyClick,
+            rotation = 270f,
+        )
+        RemoteKeySurface(
+            RemoteKey.Center,
+            Modifier.align(Alignment.Center).size(keySize),
+            onKeyClick,
+            CircleShape,
+            MiuixTheme.colorScheme.surface,
+        ) {
+            Text(
+                stringResource(RemoteKey.Center.labelRes),
+                style = MiuixTheme.textStyles.subtitle,
+                maxLines = 1,
+            )
+        }
+    }
+}
+
+@Composable
+private fun DirectionKey(
     key: RemoteKey,
     icon: ImageVector,
+    modifier: Modifier,
     onKeyClick: (RemoteKey) -> Unit,
+    rotation: Float = 0f,
 ) {
-    OutlinedButton(
+    RemoteKeySurface(key, modifier, onKeyClick, CircleShape, Color.Transparent) {
+        Icon(icon, null, Modifier.size(28.dp).rotate(rotation))
+    }
+}
+
+@Composable
+private fun RemoteRow(keys: List<KeyAction>, onKeyClick: (RemoteKey) -> Unit) {
+    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        keys.forEach { (key, icon) ->
+            RemoteKeySurface(
+                key,
+                Modifier.weight(1f).height(56.dp),
+                onKeyClick,
+                color = MiuixTheme.colorScheme.surfaceContainerHigh,
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(2.dp),
+                ) {
+                    Icon(icon, null, Modifier.size(22.dp))
+                    Text(
+                        stringResource(key.labelRes),
+                        style = MiuixTheme.textStyles.footnote2,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun RemoteKeySurface(
+    key: RemoteKey,
+    modifier: Modifier,
+    onKeyClick: (RemoteKey) -> Unit,
+    shape: androidx.compose.ui.graphics.Shape = RoundedCornerShape(18.dp),
+    color: Color,
+    content: @Composable () -> Unit,
+) {
+    val label = stringResource(key.labelRes)
+    Surface(
         onClick = { onKeyClick(key) },
-        modifier = Modifier.size(RemoteButtonSize),
-        shape = RoundedCornerShape(24.dp),
+        modifier = modifier.semantics { contentDescription = label },
+        shape = shape,
+        color = color,
     ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = stringResource(key.labelRes),
-            modifier = Modifier.size(26.dp),
-        )
+        Box(contentAlignment = Alignment.Center) { content() }
     }
 }
 
 @Composable
 private fun RemoteStatus(status: OperationStatus) {
-    when (status) {
-        OperationStatus.Idle -> Unit
-
-        is OperationStatus.Running -> Text(
-            text = status.text,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+    var showDetails by remember(status) { mutableStateOf(false) }
+    val text =
+        when (status) {
+            OperationStatus.Idle -> ""
+            is OperationStatus.Running -> status.text
+            is OperationStatus.Success -> status.text
+            is OperationStatus.Failed ->
+                stringResource(R.string.device_status_error_format, status.text, status.suggestion)
+        }
+    Box(
+        Modifier.fillMaxWidth().height(32.dp).padding(horizontal = 20.dp).clip(RoundedCornerShape(12.dp)).clickable(
+            enabled = status is OperationStatus.Failed,
+            role = Role.Button,
+        ) {
+            showDetails = true
+        },
+        contentAlignment = Alignment.Center,
+    ) {
+        Text(
+            text,
+            color =
+                if (status is OperationStatus.Failed) MiuixTheme.colorScheme.error
+                else MiuixTheme.colorScheme.onSurfaceVariantSummary,
+            style = MiuixTheme.textStyles.footnote1,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
         )
-
-        is OperationStatus.Success -> Text(
-            text = status.text,
-            color = MaterialTheme.colorScheme.primary,
-        )
-
-        is OperationStatus.Failed -> Text(
-            text = stringResource(R.string.device_status_error_format, status.text, status.suggestion),
-            color = MaterialTheme.colorScheme.error,
-        )
+    }
+    if (showDetails && status is OperationStatus.Failed) {
+        WindowDialog(
+            show = true,
+            onDismissRequest = { showDetails = false },
+            title = status.text,
+            summary = status.suggestion,
+        ) {
+            Button(onClick = { showDetails = false }, modifier = Modifier.fillMaxWidth()) {
+                Text(stringResource(R.string.action_confirm))
+            }
+        }
     }
 }
 
-private data class KeyAction(
-    val key: RemoteKey,
-    val icon: ImageVector,
-)
+private data class KeyAction(val key: RemoteKey, val icon: ImageVector)
 
-@Preview(name = "虚拟遥控器", showBackground = true, widthDp = 390)
+private val powerKeys =
+    listOf(
+        KeyAction(RemoteKey.Wakeup, AppIcons.Wake),
+        KeyAction(RemoteKey.Power, AppIcons.Power),
+        KeyAction(RemoteKey.Sleep, AppIcons.Sleep),
+    )
+private val navigationKeys =
+    listOf(
+        KeyAction(RemoteKey.Back, MiuixIcons.Back),
+        KeyAction(RemoteKey.Home, MiuixIcons.Home),
+        KeyAction(RemoteKey.Menu, MiuixIcons.More),
+    )
+private val volumeKeys =
+    listOf(
+        KeyAction(RemoteKey.VolumeDown, AppIcons.VolumeDown),
+        KeyAction(RemoteKey.Mute, MiuixIcons.VolumeOff),
+        KeyAction(RemoteKey.VolumeUp, MiuixIcons.VolumeUp),
+    )
+private val mediaKeys =
+    listOf(
+        KeyAction(RemoteKey.Previous, AppIcons.SkipPrevious),
+        KeyAction(RemoteKey.PlayPause, AppIcons.PlayPause),
+        KeyAction(RemoteKey.Next, AppIcons.SkipNext),
+    )
+
+@Preview(name = "紧凑遥控器", showBackground = true, widthDp = 320, heightDp = 568)
+@Preview(name = "遥控器", showBackground = true, widthDp = 390, heightDp = 844)
+@Preview(name = "横屏遥控器", showBackground = true, widthDp = 640, heightDp = 360)
 @Composable
 private fun RemoteControlContentPreview() {
-    AdbManagerTheme(dynamicColor = false) {
-        RemoteControlContent(
-            uiState = RemoteControlUiState(),
-            onBackClick = {},
-            onKeyClick = {},
-        )
+    AdbManagerTheme() {
+        RemoteControlContent(uiState = RemoteControlUiState(), onBackClick = {}, onKeyClick = {})
     }
 }
